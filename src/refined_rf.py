@@ -123,6 +123,8 @@ class RefinedRandomForest():
             if tree.update_leaves():
                 to_delete.append(tree)
         for tree in to_delete:
+            treeind = self.trees_.index(tree)
+            del self.rf_.estimators_[treeind]
             self.trees_.remove(tree)
         self.leaves()
 
