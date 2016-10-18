@@ -26,7 +26,7 @@ class NN_with_CategoryEmbedding(object):
         model_location.add(Embedding(1126, params['location_embedding_size'], input_length=1,
                                      W_regularizer = WR(l1 = params['location_embedding_l1'],
                                                         l2 = params['location_embedding_l2'])))
-        model_location.add(Reshape(dims=(params['location_embedding_size'],)))
+        model_location.add(Reshape(target_shape=(params['location_embedding_size'],)))
         models.append(model_location)
 
         model_events = Sequential()
@@ -51,7 +51,7 @@ class NN_with_CategoryEmbedding(object):
         model_sev.add(Embedding(5, params['severity_embedding_size'], input_length=1,
                                      W_regularizer = WR(l1 = params['severity_embedding_l1'],
                                                         l2 = params['severity_embedding_l2'])))
-        model_sev.add(Reshape(dims=(params['severity_embedding_size'],)))
+        model_sev.add(Reshape(target_shape=(params['severity_embedding_size'],)))
         models.append(model_sev)
 
         model_rest = Sequential()
