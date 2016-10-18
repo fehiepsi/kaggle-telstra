@@ -274,16 +274,16 @@ class TelstraData(object):
         X = self.X
         X['lastknown'] = self.data['train'].fault_severity.loc[itrain]
         def ewma(fs, halflife):
-            return lambda x: [0,*pd.ewma(x==fs,halflife = halflife,min_periods=1)[:-1]]
+            return lambda x: [0]+pd.ewma(x==fs,halflife = halflife,min_periods=1)[:-1].tolist()
         X['ewma02'] = X.groupby('location')['lastknown'].transform(ewma(0,2))
         X['ewma12'] = X.groupby('location')['lastknown'].transform(ewma(1,2))
         X['ewma22'] = X.groupby('location')['lastknown'].transform(ewma(2,2))
 
         X['lastknown'] = X.groupby('location')['lastknown'].fillna(method='ffill').fillna(0)
-        X['lastknown'] = X.groupby('location')['lastknown'].transform(lambda x: [0,*x.iloc[:-1]])
+        X['lastknown'] = X.groupby('location')['lastknown'].transform(lambda x: [0]+x.iloc[:-1].tolist())
         X['nextknown'] = self.data['train'].fault_severity.loc[itrain]
         X['nextknown'] = X.groupby('location')['nextknown'].fillna(method='bfill').fillna(0)
-        X['nextknown'] = X.groupby('location')['nextknown'].transform(lambda x: [*x.iloc[1:],0])
+        X['nextknown'] = X.groupby('location')['nextknown'].transform(lambda x: x.iloc[1:].tolist()+[0])
         if 'lastknown' not in self.features:
             self.features.extend(['lastknown','nextknown'])
             self.features.extend(['ewma02','ewma12','ewma22'])
