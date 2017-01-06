@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import datetime
 from sklearn.ensemble import RandomForestClassifier as RF
-from sklearn.cross_validation import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 from src.telstra_data import TelstraData, multiclass_log_loss
 from sacred import Experiment
 from sacred.observers import MongoObserver
@@ -53,13 +53,13 @@ def rf(series, n_folds, clfparams, featureparams, aggregateparams, include, excl
         loss = 999.
     else:
         y = data.get_y()
-        kf = StratifiedKFold(y.values, n_folds=n_folds, shuffle=True)
+        kf = StratifiedKFold(n_splits=n_folds, shuffle=True)
         pred = pd.DataFrame(0., index = y.index, columns = pred_cols)
         i = 1
         _run.info['loss'] = []
         _run.info['trainloss'] = []
         feature_importances_ = 0
-        for itrain, itest in kf:
+        for itrain, itest in kf.split(y.values, y.values):
             Xtr, ytr, Xte, yte = data.get_train_test_features(itrain, itest, **aggregateparams)
             clf = RF(**clfparams)
             clf.fit(Xtr, ytr)#, weights)

@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import xgboost as xgb
 import datetime
-from sklearn.cross_validation import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 from sacred import Experiment
 from src.telstra_data import TelstraData, multiclass_log_loss
 from sacred.observers import MongoObserver

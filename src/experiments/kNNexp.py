@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import datetime
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.cross_validation import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 from ..telstra_data import TelstraData, multiclass_log_loss
 from sacred import Experiment
 from sacred.observers import MongoObserver

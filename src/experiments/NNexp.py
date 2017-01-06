@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import datetime
-from sklearn.cross_validation import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 from sacred import Experiment
 from sacred.observers import MongoObserver
 from src.NNmodel import NN_with_CategoryEmbedding as NN

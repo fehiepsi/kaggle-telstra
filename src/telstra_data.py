@@ -19,7 +19,7 @@ class SparseRobustMaxScaler(object):
         return X / self.scale_
 
 class TelstraData(object):
-    def __init__(self, datadir = '../data', include = [], exclude = [], **featureparams):
+    def __init__(self, datadir = 'data', include = [], exclude = [], **featureparams):
         self.data = self.load_data(datadir)
         self.build_features(**featureparams)
         self.include = include
